@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [avatar, setAvatar] = useState();
+  const handlePreviewAvatar = (e) => {
+    const files = e.target.files[0];
+    setAvatar(URL.createObjectURL(files));
+  };
+
+  // Xoa anh cu khoi memory khi thay doi anh moi
+  useEffect(() => {
+    return () => {
+      avatar && URL.revokeObjectURL(avatar);
+    };
+  }, [avatar]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="file" onChange={handlePreviewAvatar} />
+      {avatar && <img width={200} height={200} src={avatar} alt="" />}
     </div>
   );
 }
