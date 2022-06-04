@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import "./App.css";
+
+// useEffect
+// 1. Cập nhật lại state.
+// 2. Cập nhật DOM (mutated)
+// 3. Render lại UI
+// 4. Gọi cleanup nến deps thay đổi
+// 5. Gọi useEffect callback
+
+// useLayoutEffect
+// 1. Cập nhật lại state
+// 2. Cập nhật DOM (mutated)
+// 3. Gọi cleanup nếu deps thay đổi (sync)
+// 4. Gọi useLayoutEffect callback (sync)
+// 5. Render lại UI
 
 function App() {
+  const [count, setCount] = useState(0);
+
+  useLayoutEffect(() => {
+    if (count > 3) setCount(0);
+  }, [count]);
+
+  const handleRun = () => {
+    setCount(count + 1);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{count}</h1>
+      <button onClick={handleRun}>Run</button>
     </div>
   );
 }
