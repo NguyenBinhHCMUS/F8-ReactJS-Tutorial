@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+
+const lessons = [
+  {
+    id: 1,
+    name: "ReactJS là gì? Tại sao nên học ReactJS",
+  },
+  {
+    id: 2,
+    name: "SPA/MPA là gì?",
+  },
+  {
+    id: 3,
+    name: "Arrow function",
+  },
+];
 
 function App() {
+  const [lessonId, setLessonId] = useState(1);
+
+  useEffect(() => {
+    const handleComment = ({ detail }) => {
+      console.log(detail);
+    };
+
+    window.addEventListener(`lesson-${lessonId}`, handleComment);
+
+    return () => {
+      window.removeEventListener(`lesson-${lessonId}`, handleComment);
+    };
+  }, [lessonId]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {lessons.map((lesson) => (
+          <li
+            key={lesson.id}
+            style={{ color: lessonId === lesson.id ? "red" : "#333" }}
+            onClick={() => setLessonId(lesson.id)}
+          >
+            {lesson.name}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
